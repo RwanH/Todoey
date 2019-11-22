@@ -13,9 +13,15 @@ class TodoListViewController: UITableViewController {
     
     var Array = ["First", "Second", "Third"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            Array = items
+            
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -32,6 +38,7 @@ class TodoListViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print(indexPath.row)
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
@@ -55,6 +62,9 @@ class TodoListViewController: UITableViewController {
             // What will happen once the user clicks the "Add Item" button on our UIAlert
         
             self.Array.append(textField.text!)
+            
+            self.defaults.set(self.Array, forKey: "ToDoListArray")
+            
             self.tableView.reloadData()
         }
         
